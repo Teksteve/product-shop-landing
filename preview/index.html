@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Product Shop</title>
+<style>
+/* ============================================================
+   TOKENS
+   Names match design-system.md and the intended Figma Variables.
+   Values here are wireframe placeholders. Replace, do not rename.
+   ============================================================ */
+:root{
+  /* color/* */
+  --color-brand:        #2C4BFF;   /* OPEN: brand slot */
+  --color-brand-deep:   #1B2FA8;   /* OPEN */
+  --color-bg:           #F4F5F3;
+  --color-surface:      #FFFFFF;
+  --color-surface-raised:#FBFBFA;
+  --color-line:         #D9DCDE;
+  --color-text:         #14161A;
+  --color-text-muted:   #4A4F57;
+  --color-text-dim:     #8A9099;
+
+  /* space/* */
+  --space-screen-x:     32px;
+  --space-card-padding: 28px;
+  --space-stack-gap:    20px;
+  --space-grid-gap:     20px;
+  --space-section-y:    120px;
+
+  /* radius/* */
+  --radius-card:        14px;
+  --radius-control:     8px;
+  --radius-pill:        999px;
+
+  /* type/* */
+  --font-display: "Helvetica Neue", Inter, system-ui, sans-serif; /* OPEN: display face undecided */
+  --font-body:    "Helvetica Neue", Inter, system-ui, sans-serif; /* OPEN: body face undecided */
+  --type-hero:        clamp(2.6rem, 6.2vw, 4.6rem);
+  --type-title-root:  clamp(1.7rem, 3.2vw, 2.5rem);
+  --type-card-number: clamp(2rem, 4vw, 3rem);
+  --type-body:        1.0625rem;
+  --type-eyebrow:     0.6875rem;
+  --type-caption:     0.8125rem;
+
+  --maxw: 1180px;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--color-bg);
+  color:var(--color-text);
+  font-family:var(--font-body);
+  font-size:var(--type-body);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--color-brand);outline-offset:3px;border-radius:2px}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--space-screen-x);position:relative}
+.eyebrow{
+  font-size:var(--type-eyebrow);
+  text-transform:uppercase;
+  letter-spacing:.16em;
+  color:var(--color-text-dim);
+  margin:0 0 18px;
+}
+.section{padding:var(--space-section-y) 0;position:relative}
+.section + .section{border-top:1px solid var(--color-line)}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:40;
+  background:color-mix(in srgb, var(--color-bg) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--color-line);
+}
+.nav-inner{
+  max-width:var(--maxw);margin:0 auto;
+  padding:16px var(--space-screen-x);
+  display:flex;align-items:center;gap:28px;
+}
+.mark{
+  font-family:var(--font-display);
+  font-weight:700;letter-spacing:-.02em;font-size:1rem;
+  margin-right:auto;
+}
+.mark span{color:var(--color-text-dim);font-weight:400}
+.nav-links{display:flex;gap:24px;font-size:.9375rem;color:var(--color-text-muted)}
+.nav-links a:hover{color:var(--color-text)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  height:44px;padding:0 22px;
+  border-radius:var(--radius-control);
+  font-size:.9375rem;font-weight:500;
+  border:1px solid transparent;cursor:pointer;
+  transition:transform .15s ease, background .15s ease;
+}
+.btn-primary{background:var(--color-text);color:var(--color-surface)}
+.btn-primary:hover{transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--color-text);border-color:var(--color-line)}
+.btn-secondary:hover{border-color:var(--color-text)}
+.nav .btn{height:38px;padding:0 16px}
+@media(max-width:760px){ .nav-links{display:none} }
+
+/* ---------- hero ---------- */
+.hero{padding-top:96px;padding-bottom:72px}
+.hero h1{
+  font-family:var(--font-display);
+  font-size:var(--type-hero);
+  line-height:1.03;
+  letter-spacing:-.035em;
+  font-weight:600;
+  margin:0 0 24px;
+  max-width:17ch;
+}
+.hero p.lede{
+  font-size:1.1875rem;
+  color:var(--color-text-muted);
+  max-width:52ch;
+  margin:0 0 36px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+
+/* the thesis slot: signature moment lives here */
+.thesis{
+  margin-top:72px;
+  background:var(--color-surface);
+  border:1px solid var(--color-line);
+  border-radius:var(--radius-card);
+  aspect-ratio:16/9;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.thesis::before{
+  content:"";position:absolute;inset:0;
+  background-image:linear-gradient(var(--color-line) 1px, transparent 1px),
+                   linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+  background-size:40px 40px;opacity:.45;
+}
+.thesis-label{
+  position:relative;text-align:center;
+  color:var(--color-text-dim);
+  font-size:var(--type-caption);
+  max-width:34ch;line-height:1.5;
+}
+.thesis-label strong{display:block;color:var(--color-text-muted);font-size:.9375rem;margin-bottom:6px}
+@media(max-width:640px){ .thesis{aspect-ratio:4/3} }
+
+/* ---------- metrics ---------- */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-grid-gap)}
+.metric{
+  background:var(--color-surface);
+  border:1px solid var(--color-line);
+  border-radius:var(--radius-card);
+  padding:var(--space-card-padding);
+}
+.metric .num{
+  font-family:var(--font-display);
+  font-size:var(--type-card-number);
+  font-weight:600;letter-spacing:-.03em;line-height:1;
+  color:var(--color-text-dim);
+  margin-bottom:10px;
+}
+.metric .lab{font-size:.9375rem;color:var(--color-text-muted)}
+@media(max-width:1000px){ .metrics{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:560px){ .metrics{grid-template-columns:1fr} }
+
+/* ---------- work ---------- */
+.section-head{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:32px;margin-bottom:48px;flex-wrap:wrap;
+}
+.section-head h2{
+  font-family:var(--font-display);
+  font-size:var(--type-title-root);
+  font-weight:600;letter-spacing:-.025em;line-height:1.1;
+  margin:0;max-width:22ch;
+}
+.section-head p{margin:0;color:var(--color-text-muted);max-width:40ch}
+
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-grid-gap)}
+.card{
+  background:var(--color-surface);
+  border:1px solid var(--color-line);
+  border-radius:var(--radius-card);
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:border-color .15s ease, transform .15s ease;
+}
+.card:hover{border-color:var(--color-text-dim);transform:translateY(-2px)}
+.card-media{
+  aspect-ratio:3/2;background:var(--color-surface-raised);
+  border-bottom:1px solid var(--color-line);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--color-text-dim);font-size:var(--type-caption);
+}
+.card-body{padding:var(--space-card-padding);display:flex;flex-direction:column;gap:8px;flex:1}
+.card-kicker{
+  font-size:var(--type-eyebrow);text-transform:uppercase;
+  letter-spacing:.16em;color:var(--color-text-dim);
+}
+.card-body h3{margin:0;font-family:var(--font-display);font-size:1.25rem;font-weight:600;letter-spacing:-.015em}
+.card-body p{margin:0;color:var(--color-text-muted);font-size:.9375rem}
+.card-foot{
+  margin-top:auto;padding-top:16px;
+  font-size:.9375rem;color:var(--color-text);
+  display:flex;align-items:center;gap:8px;
+}
+.card-foot .arrow{transition:transform .15s ease}
+.card:hover .card-foot .arrow{transform:translateX(3px)}
+@media(max-width:1000px){ .work-grid{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:760px){ .work-grid{grid-template-columns:1fr} }
+
+/* ---------- approach ---------- */
+.shapes{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-grid-gap)}
+.shape{
+  background:var(--color-surface);
+  border:1px solid var(--color-line);
+  border-radius:var(--radius-card);
+  padding:var(--space-card-padding);
+  display:flex;flex-direction:column;gap:10px;
+}
+.shape h3{margin:0;font-family:var(--font-display);font-size:1.125rem;font-weight:600}
+.shape p{margin:0;color:var(--color-text-muted);font-size:.9375rem}
+.shape .price{
+  margin-top:auto;padding-top:18px;
+  font-size:var(--type-caption);color:var(--color-text-dim);
+  border-top:1px solid var(--color-line);
+}
+@media(max-width:900px){ .shapes{grid-template-columns:1fr} }
+
+/* ---------- process ---------- */
+.steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:var(--space-grid-gap);
+  border-top:1px solid var(--color-line);
+}
+.step{padding:28px 0 0;position:relative}
+.step + .step{border-left:1px solid var(--color-line);padding-left:24px}
+.step .idx{
+  font-family:ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size:var(--type-caption);
+  color:var(--color-text-dim);
+  display:block;margin-bottom:14px;
+}
+.step h3{
+  margin:0 0 8px;font-family:var(--font-display);
+  font-size:1.0625rem;font-weight:600;letter-spacing:-.01em;
+}
+.step p{margin:0;color:var(--color-text-muted);font-size:.9375rem}
+@media(max-width:900px){
+  .steps{grid-template-columns:1fr;border-top:none}
+  .step{border-top:1px solid var(--color-line);padding:22px 0 0}
+  .step + .step{border-left:none;padding-left:0}
+}
+
+/* ---------- roster ---------- */
+.roster{
+  margin-top:var(--space-stack-gap);
+  border:1px solid var(--color-line);
+  border-radius:var(--radius-card);
+  background:var(--color-surface);
+  overflow:hidden;
+}
+.roster-row{
+  display:flex;gap:20px;align-items:baseline;
+  padding:16px var(--space-card-padding);
+}
+.roster-row + .roster-row{border-top:1px solid var(--color-line)}
+.roster-row .who{
+  flex:0 0 190px;
+  font-family:var(--font-display);
+  font-weight:600;font-size:.9375rem;letter-spacing:-.01em;
+}
+.roster-row .what{margin:0;color:var(--color-text-muted);font-size:.9375rem}
+@media(max-width:620px){
+  .roster-row{flex-direction:column;gap:4px}
+  .roster-row .who{flex:none}
+}
+
+.note{
+  margin-top:var(--space-stack-gap);
+  padding:20px var(--space-card-padding);
+  border:1px solid var(--color-line);
+  border-radius:var(--radius-card);
+  background:transparent;
+  color:var(--color-text-muted);
+  font-size:.9375rem;
+}
+.note strong{color:var(--color-text)}
+
+/* ---------- cta ---------- */
+.cta{text-align:center;padding:var(--space-section-y) 0}
+.cta h2{
+  font-family:var(--font-display);
+  font-size:var(--type-title-root);
+  font-weight:600;letter-spacing:-.025em;
+  margin:0 auto 16px;max-width:24ch;
+}
+.cta p{margin:0 auto 32px;color:var(--color-text-muted);max-width:44ch}
+
+/* ---------- footer ---------- */
+footer{
+  border-top:1px solid var(--color-line);
+  padding:36px 0;
+  font-size:var(--type-caption);
+  color:var(--color-text-dim);
+}
+.footer-inner{
+  max-width:var(--maxw);margin:0 auto;padding:0 var(--space-screen-x);
+  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+}
+
+
+@media(prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important;scroll-behavior:auto !important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="mark">THE PRODUCT SHOP</div>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#ai">AI</a>
+      <a href="#how">How it works</a>
+      <a href="#approach">Engagements</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="btn btn-primary" href="#contact">Start a project</a>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="section hero">
+  <div class="wrap">
+    <p class="eyebrow">Product design and engineering, since 2001</p>
+    <h1>An operating system. A company that sold. Products used by millions.</h1>
+    <p class="lede">The Product Shop designs and builds software end to end. Rebuilt around AI, so the work moves in weeks. Finished by hand, so it holds up.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#work">See the work</a>
+      <a class="btn btn-secondary" href="#how">How it works</a>
+    </div>
+
+    <div class="thesis">
+      <div class="thesis-label">
+        <strong>The thesis slot</strong>
+        A live prototype running in the page, not a screenshot. The strongest proof this shop ships is a thing that actually works, sitting above the fold.
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== METRICS ===================== -->
+<section class="section">
+  <div class="wrap">
+    <p class="eyebrow">Twenty five years, in four numbers</p>
+    <div class="metrics">
+      <div class="metric">
+        <div class="num">5M+</div>
+        <div class="lab">People who have used something designed here, from tablet operating systems to a GIF keyboard inside Facebook Messenger.</div>
+      </div>
+      <div class="metric">
+        <div class="num">~100</div>
+        <div class="lab">Apps and products designed and built since 2001.</div>
+      </div>
+      <div class="metric">
+        <div class="num">25</div>
+        <div class="lab">Years shipping product, starting with Teknision in 2001.</div>
+      </div>
+      <div class="metric">
+        <div class="num">2013</div>
+        <div class="lab">Teknision acquired by Synacor, twelve years after founding.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== WORK ===================== -->
+<section class="section" id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Work that shipped.</h2>
+      <p>Tablet operating systems, a company that got acquired, products with a million users, and current client work. Recent clients stay unnamed until each one agrees.</p>
+    </div>
+    <div class="work-grid">
+
+      <a class="card" href="#">
+        <div class="card-media">Product shot slot, 3:2</div>
+        <div class="card-body">
+          <div class="card-kicker">2011, tablet OS</div>
+          <h3>BlackBerry PlayBook</h3>
+          <p>Led the user experience design for BlackBerry's Tablet OS alongside RIM's executive team. The engagement produced several patents.</p>
+          <div class="card-foot">Read the case study <span class="arrow">&rarr;</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-media">Product shot slot, 3:2</div>
+        <div class="card-body">
+          <div class="card-kicker">2013, founder</div>
+          <h3>PopKey</h3>
+          <p>A GIF keyboard that reached more than a million people within months, and brand work with Nike and Starbucks.</p>
+          <div class="card-foot">Read the case study <span class="arrow">&rarr;</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-media">Product shot slot, 3:2</div>
+        <div class="card-body">
+          <div class="card-kicker">2012, product</div>
+          <h3>Chameleon</h3>
+          <p>An Android home screen that adapted to time and place. Funded by 6,400 backers on Kickstarter.</p>
+          <div class="card-foot">Read the case study <span class="arrow">&rarr;</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-media">Product shot slot, 3:2</div>
+        <div class="card-body">
+          <div class="card-kicker">2020, fintech</div>
+          <h3>Cheddar</h3>
+          <p>Spending made legible for people who do not think in spreadsheets.</p>
+          <div class="card-foot">Read the case study <span class="arrow">&rarr;</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-media">Product shot slot, 3:2</div>
+        <div class="card-body">
+          <div class="card-kicker">Own product, iOS</div>
+          <h3>Quench</h3>
+          <p>Charging and battery health, made legible. Designed, built, and shipped in house.</p>
+          <div class="card-foot">Read the case study <span class="arrow">&rarr;</span></div>
+        </div>
+      </a>
+
+      <a class="card" href="#">
+        <div class="card-media">Product shot slot, 3:2</div>
+        <div class="card-body">
+          <div class="card-kicker">Own product, web</div>
+          <h3>PriceScout</h3>
+          <p>Price comparison that does the searching for you. Live prototype, running now.</p>
+          <div class="card-foot">Try the prototype <span class="arrow">&rarr;</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== AI ===================== -->
+<section class="section" id="ai">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>A full team's worth of review, on every project.</h2>
+      <p>The studio was rebuilt around AI. What that buys you is speed and a second set of eyes on everything, not a discount on care.</p>
+    </div>
+    <div class="shapes">
+      <div class="shape">
+        <h3>You see real work in weeks</h3>
+        <p>Concepts, working prototypes, and production code arrive in days rather than months, so decisions get made against something real instead of a description.</p>
+        <div class="price">Speed</div>
+      </div>
+      <div class="shape">
+        <h3>Nothing reaches you unreviewed</h3>
+        <p>Every screen, every line of code, and every word passes a specialist review against written standards before it leaves the studio.</p>
+        <div class="price">Consistency</div>
+      </div>
+      <div class="shape">
+        <h3>You get finished work, not output</h3>
+        <p>AI drafts. People finish. Anything that still reads as machine made gets sent back, which is the difference you can feel in the result.</p>
+        <div class="price">Craft</div>
+      </div>
+    </div>
+
+    <div class="roster">
+      <div class="roster-row">
+        <div class="who">Design critic</div>
+        <p class="what">Holds every flow and screen to the design standard and catches drift before you would notice it.</p>
+      </div>
+      <div class="roster-row">
+        <div class="who">Principal engineer</div>
+        <p class="what">Holds architecture, code, and security to a fixed build bar, and decides what to build versus buy.</p>
+      </div>
+      <div class="roster-row">
+        <div class="who">Marketing lead</div>
+        <p class="what">Keeps copy, positioning, and launch material speaking in one voice.</p>
+      </div>
+      <div class="roster-row">
+        <div class="who">Quality gate</div>
+        <p class="what">The last check before anything ships, with one job: catching work that reads as generated.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== HOW IT WORKS ===================== -->
+<section class="section" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Four steps. No handoff, no drift.</h2>
+      <p>Most product work loses its quality in the gaps between people. This process has no gaps to lose it in.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="idx">01</span>
+        <h3>Scope</h3>
+        <p>The deliverable is defined and priced before anything gets designed.</p>
+      </div>
+      <div class="step">
+        <span class="idx">02</span>
+        <h3>Design</h3>
+        <p>Flows, screens, and the system underneath, decided in the open with you.</p>
+      </div>
+      <div class="step">
+        <span class="idx">03</span>
+        <h3>Build</h3>
+        <p>The design gets built by the same hands that designed it, so intent survives.</p>
+      </div>
+      <div class="step">
+        <span class="idx">04</span>
+        <h3>Ship</h3>
+        <p>You get working software, the source, and the design system it was built on.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== APPROACH ===================== -->
+<section class="section" id="approach">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>You know the number before anything starts.</h2>
+      <p>Engagements are priced by what you get, never by the hour. No timesheet, no surprise invoice.</p>
+    </div>
+    <div class="shapes">
+      <div class="shape">
+        <h3>Product sprint</h3>
+        <p>A defined product or feature, designed and built to a working state you can put in front of people.</p>
+        <div class="price">Fixed price, fixed deliverable</div>
+      </div>
+      <div class="shape">
+        <h3>Design system</h3>
+        <p>The tokens, components, and rules your team builds against, documented so it survives the handoff.</p>
+        <div class="price">Fixed price, fixed deliverable</div>
+      </div>
+      <div class="shape">
+        <h3>Ongoing partner</h3>
+        <p>Continuous design and build alongside your team, for products that keep moving.</p>
+        <div class="price">Monthly, capped scope</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CTA ===================== -->
+<section class="section cta" id="contact">
+  <div class="wrap">
+    <h2>Tell us what you are trying to ship.</h2>
+    <p>A short description is enough to start. You get a straight answer on scope, price, and whether this is the right shop for the job.</p>
+    <a class="btn btn-primary" href="mailto:hello@example.com">Start a project</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span>The Product Shop Corp. Working in Eastern time.</span>
+    <span>Preview build</span>
+  </div>
+</footer>
+
+
+</body>
+</html>
