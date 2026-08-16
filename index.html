@@ -128,6 +128,16 @@
   .row.soon{opacity:.72;}
   .row.soon .p-name{color:var(--ink-2);}
 
+  /* pieces strip: the individual artifacts under a project */
+  .entry{border-bottom:1px solid var(--line);}
+  .entry > a.row{border-bottom:none; padding-bottom:14px;}
+  .pieces{display:flex; flex-wrap:wrap; align-items:baseline; gap:9px 18px; padding:0 6px 22px;}
+  .pieces .pk{font-family:var(--mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3);}
+  .pieces a{font-family:var(--mono); font-size:12px; letter-spacing:.02em; color:var(--ink-2); display:inline-flex; align-items:center; gap:7px; transition:color .18s;}
+  .pieces a:hover{color:var(--accent-2);}
+  .pieces a .arw{transition:transform .18s;}
+  .pieces a:hover .arw{transform:translateX(3px);}
+
   footer{margin-top:64px; padding-top:22px; border-top:1px solid var(--line);
     font-family:var(--mono); font-size:11.5px; color:var(--ink-3); letter-spacing:.03em;
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
@@ -286,29 +296,41 @@
       <span class="r">2 products &middot; 3 client engagements</span>
     </div>
 
-    <a class="row" href="https://claude.ai/code/artifact/43188124-150a-4baf-ae10-6944b19b823d">
-      <div>
-        <div class="p-name">Quench</div>
-        <div class="p-desc">A charging companion that makes power and battery health legible across your devices. Formerly Ampr.</div>
-        <div class="p-tags"><span class="tag2">iOS</span><span class="tag2">Prototype</span><span class="tag2">2 pieces</span></div>
+    <div class="entry">
+      <a class="row" href="https://claude.ai/code/artifact/43188124-150a-4baf-ae10-6944b19b823d">
+        <div>
+          <div class="p-name">Quench</div>
+          <div class="p-desc">A charging companion that makes power and battery health legible across your devices. Formerly Ampr.</div>
+          <div class="p-tags"><span class="tag2">iOS</span><span class="tag2">Prototype</span><span class="tag2">2 pieces</span></div>
+        </div>
+        <div class="aside">
+          <span class="status live"><span class="d"></span>Live</span>
+          <span class="cta">Open <span class="arw">&rarr;</span></span>
+        </div>
+      </a>
+      <div class="pieces">
+        <span class="pk">Pieces</span>
+        <a href="https://claude.ai/code/artifact/70f9b33f-7ca9-4f81-b577-a74d1f474693">Prototype v2, before and after the design critic <span class="arw">&rarr;</span></a>
       </div>
-      <div class="aside">
-        <span class="status live"><span class="d"></span>Live</span>
-        <span class="cta">Open <span class="arw">&rarr;</span></span>
-      </div>
-    </a>
+    </div>
 
-    <a class="row" href="https://claude.ai/code/artifact/6819cb25-bf13-449f-ae6b-da445d080333">
-      <div>
-        <div class="p-name">PriceScout</div>
-        <div class="p-desc">A price comparison web app that searches live retail listings, filters out refurbished and grey market noise, and shows what every major retailer actually charges.</div>
-        <div class="p-tags"><span class="tag2">Web &middot; Next.js</span><span class="tag2">Live app</span><span class="tag2">2 pieces</span></div>
+    <div class="entry">
+      <a class="row" href="https://claude.ai/code/artifact/6819cb25-bf13-449f-ae6b-da445d080333">
+        <div>
+          <div class="p-name">PriceScout</div>
+          <div class="p-desc">A price comparison web app that searches live retail listings, filters out refurbished and grey market noise, and shows what every major retailer actually charges.</div>
+          <div class="p-tags"><span class="tag2">Web &middot; Next.js</span><span class="tag2">Live app</span><span class="tag2">2 pieces</span></div>
+        </div>
+        <div class="aside">
+          <span class="status live"><span class="d"></span>Live</span>
+          <span class="cta">Open <span class="arw">&rarr;</span></span>
+        </div>
+      </a>
+      <div class="pieces">
+        <span class="pk">Pieces</span>
+        <a href="https://claude.ai/code/artifact/5abe7349-cfc8-4355-917b-267a0bcf43b0">Prototype, search and buy/wait verdict <span class="arw">&rarr;</span></a>
       </div>
-      <div class="aside">
-        <span class="status live"><span class="d"></span>Live</span>
-        <span class="cta">Open <span class="arw">&rarr;</span></span>
-      </div>
-    </a>
+    </div>
 
     <div class="row soon">
       <div>
