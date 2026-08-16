@@ -23,10 +23,33 @@ Each project is an `.entry` wrapping two parts:
 **Do not nest an `<a>` inside `a.row`** — that is why pieces live in a sibling
 div rather than inside the row.
 
+## Publishing the landing page
+
+The repo is the source of truth. The landing page is published as artifact
+`7470ef20-5326-4617-95d5-72209d696182` and **must be republished to that same
+URL**, never as a new artifact:
+
+1. Derive a publish copy with the relative `preview/` footer link stripped.
+   A published artifact injects `<base href="/_f/<build-id>/">`, so any relative
+   href resolves to a path that does not exist. Absolute URLs only.
+2. Publish the derived copy passing `url` set to the artifact above.
+
+These two drifted apart once already: the artifact sat several commits behind and
+still named three clients the repo had anonymized. Republish in the same session
+as any content change.
+
+### The share pin
+
+The artifact is shared with anyone who has the link, and carries a **share pin**:
+viewers keep seeing the pinned version until the pin is moved by hand from the
+page's share menu. Republishing alone does not change what anyone else sees.
+
 ## Published artifacts
 
-All are private to the account. Anyone else opening these links gets nothing —
-they must be shared before the landing page works for a visitor.
+The landing page is shared with anyone who has the link. **Every artifact it
+links to is private**, so each link works for the owner and is dead for every
+visitor. Sharing has to be changed from each artifact's own share menu; it
+cannot be set from code.
 
 | Artifact | UUID | Linked from |
 |---|---|---|
