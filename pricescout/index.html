@@ -4,92 +4,107 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PriceScout — prototype</title>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
+  /* Design tokens from the deployed app (pricescout-rho.vercel.app), Aug 22 2026 */
   :root {
-    --paper:#F7F7F4; --card:#FFF; --ink:#14171A; --muted:#6B7480;
-    --line:#E2E2DC; --accent:#2A56E8; --buy:#1F8A5D; --wait:#B07C22;
+    --bg:#fff; --fg:#1d1d1f; --fg-2:#1d1d1f99; --fg-3:#1d1d1f61;
+    --rule:#00000014; --surface:#f5f5f7;
+    --good:#d9f2e2; --good-ink:#0f7b3f;
+    --wait:#ff9f0a24; --wait-ink:#a05a00;
+    --r-card:20px; --r-row:14px; --r-badge:999px;
+    --font-body:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#202123; --fg:#f2f2f3; --fg-2:rgba(242,242,243,.62); --fg-3:rgba(242,242,243,.4);
+      --rule:rgba(255,255,255,.1); --surface:#2b2b30;
+      --good:rgba(48,209,88,.16); --good-ink:#4cd97b;
+      --wait:rgba(255,159,10,.16); --wait-ink:#ffb340;
+    }
   }
   *{box-sizing:border-box;margin:0}
-  body{background:var(--paper);color:var(--ink);font-family:'Inter',sans-serif}
-  .wrap{max-width:560px;margin:0 auto;padding:36px 16px 64px}
-  .back{font-size:13px;color:var(--muted);text-decoration:none}
-  .back:hover{color:var(--ink)}
-  .mono{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-  h1{font-family:'Archivo',sans-serif;font-weight:800;font-size:34px;letter-spacing:-.03em;margin:8px 0 20px}
-  .note{border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;background:var(--card)}
-  .searchrow{display:flex;gap:8px}
-  .search{flex:1;min-width:0;background:var(--card);border:1px solid var(--ink);border-radius:8px;padding:13px 14px;font-size:16px;font-family:'Inter',sans-serif}
-  .go{background:var(--ink);color:var(--paper);border:none;border-radius:8px;padding:0 20px;font-size:15px;font-weight:600;font-family:'Inter',sans-serif}
-  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px}
-  .section{margin-top:24px}
-  .histrow{border-bottom:1px solid var(--line);padding:11px 2px;font-size:15px}
-  .result{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-top:24px}
-  .pname{font-family:'Archivo',sans-serif;font-weight:600;font-size:18px}
-  .verdict{margin-top:10px;border-left:3px solid var(--buy);padding-left:10px}
-  .verdict .call{color:var(--buy);font-family:'Archivo',sans-serif;font-weight:600;font-size:14px}
-  .verdict .why{color:var(--muted);font-size:13px;margin-top:2px;line-height:1.45}
-  .offer{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
-  .offer:first-of-type{border-top:none}
-  .offer .r{flex:1;font-size:15px;font-weight:500}
-  .best{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-left:8px}
-  .price{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:17px}
-  .bell{display:flex;padding:4px}
+  body{background:var(--bg);color:var(--fg);font-family:var(--font-body);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:560px;margin:0 auto;padding:32px 16px 64px}
+  .topbar{display:flex;justify-content:space-between;align-items:center}
+  .back{font-size:13px;color:var(--fg-3);text-decoration:none}
+  .back:hover{color:var(--fg)}
+  .applink{font-size:13px;color:var(--good-ink);text-decoration:none;font-weight:500}
+  .hero{text-align:center;margin:36px 0 8px}
+  h1{font-size:40px;font-weight:700;letter-spacing:-.02em}
+  .tag{font-size:14px;color:var(--fg-2);margin-top:6px}
+  .searchrow{display:flex;background:var(--surface);border-radius:var(--r-badge);padding:5px 5px 5px 18px;margin-top:22px;align-items:center;gap:8px}
+  .search{flex:1;min-width:0;background:none;border:none;font-size:15px;font-family:inherit;color:var(--fg);outline:none}
+  .go{background:var(--bg);color:var(--fg);border:none;border-radius:var(--r-badge);padding:9px 18px;font-size:14px;font-weight:500;font-family:inherit}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;justify-content:center}
+  .chip{border:1px solid var(--rule);border-radius:var(--r-badge);padding:7px 14px;font-size:13px;color:var(--fg-2)}
+  .note{font-size:12px;color:var(--fg-3);text-align:center;margin:18px 0 24px;line-height:1.5}
+
+  .card{background:var(--surface);border-radius:var(--r-card);padding:18px 18px 12px}
+  .pname{font-size:15px;font-weight:600;line-height:1.35}
+  .verdictrow{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .call{font-size:24px;font-weight:700;letter-spacing:-.01em;padding:3px 12px;border-radius:10px;color:var(--good-ink);background:var(--good)}
+  .headprice{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+  .at{font-size:13px;color:var(--fg-2);font-weight:400}
+  .why{margin:12px 0 0;padding:0 0 0 18px}
+  .why li{font-size:13px;color:var(--fg-2);line-height:1.5;margin:6px 0}
+  .why li::marker{color:var(--fg);font-weight:600}
+  .offers{margin-top:14px}
+  .offer{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--rule)}
+  .fav{width:26px;height:26px;border-radius:7px;background:var(--bg);flex:none}
+  .oinfo{flex:1;min-width:0}
+  .r{font-size:14px;font-weight:500}
+  .bestpill{display:inline-block;font-size:11px;font-weight:600;color:var(--good-ink);background:var(--good);border-radius:var(--r-badge);padding:2px 8px;margin-left:8px;vertical-align:1px}
+  .fresh{font-size:11px;color:var(--fg-3);margin-top:1px;font-variant-numeric:tabular-nums}
+  .oprice{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+  .foot{margin-top:4px;padding:12px 0 6px;border-top:1px solid var(--rule)}
+  .rec{font-size:11px;color:var(--fg-3)}
+  .disclaimer{font-size:11px;color:var(--fg-3);margin-top:14px;line-height:1.5;text-align:center}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <a class="back" href="../">&larr; Gallery</a>
-  <div class="mono" style="margin-top:16px">The Product Shop &middot; Proto-001</div>
-  <h1>PriceScout</h1>
-  <div class="note">Static preview with sample results. In the live build, an AI agent searches the web on each query and returns real offers with a buy/wait call.</div>
+  <div class="topbar">
+    <a class="back" href="../">&larr; Gallery</a>
+    <a class="applink" href="https://pricescout-rho.vercel.app/">Live app &rarr;</a>
+  </div>
+
+  <div class="hero">
+    <h1>PriceScout</h1>
+    <div class="tag">Every price, one answer.</div>
+  </div>
 
   <div class="searchrow">
-    <input class="search" value="Nintendo Switch 2" readonly>
+    <input class="search" value="Corsair Vengeance 32GB DDR5-6000" readonly>
     <button class="go">Search</button>
   </div>
-
-  <div class="result">
-    <div class="pname">Nintendo Switch 2</div>
-    <div class="verdict" style="border-color:var(--wait)">
-      <div class="call" style="color:var(--wait)">Wait</div>
-      <div class="why">Consoles rarely discount; holiday bundles historically carry the real value.</div>
-    </div>
-    <div style="margin-top:14px">
-      <div class="offer">
-        <div class="r">Best Buy<span class="best">Best price</span></div>
-        <span class="price">$449.99</span>
-        <span class="bell"><svg width="20" height="20" viewBox="0 0 24 24" fill="#2A56E8" stroke="#2A56E8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
-      </div>
-      <div class="offer">
-        <div class="r">Walmart</div>
-        <span class="price">$449.99</span>
-        <span class="bell"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7480" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
-      </div>
-      <div class="offer">
-        <div class="r">Target</div>
-        <span class="price">$454.99</span>
-        <span class="bell"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6B7480" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span>
-      </div>
-    </div>
+  <div class="chips">
+    <span class="chip">Nintendo Switch 2</span>
+    <span class="chip">Sony WH-1000XM6</span>
+    <span class="chip">Samsung 990 Pro 2TB</span>
   </div>
 
-  <div class="section">
-    <div class="mono">Popular searches</div>
-    <div class="chips">
-      <span class="chip">MacBook Pro 14 M5</span>
-      <span class="chip">Sony WH-1000XM6</span>
-      <span class="chip">LG C5 65&Prime; OLED</span>
-      <span class="chip">Samsung 990 Pro 2TB</span>
+  <div class="note">Static preview with sample data, matching the deployed design system. The live app runs real searches with live offers.</div>
+
+  <div class="card">
+    <div class="pname">Corsair Vengeance 32GB DDR5&#8209;6000 CL30</div>
+    <div class="verdictrow">
+      <span class="call">Buy online</span>
+      <span class="headprice">$189.99 <span class="at">at Newegg, shipped</span></span>
     </div>
+    <ol class="why">
+      <li>DDR5 spot pricing is up 38% in 90 days on data center demand, and the curve is still rising. Waiting has cost about $12 a month on this kit.</li>
+      <li>Cross&#8209;retailer spread is $10 across three stores. No one is discounting, so there is no better price to hold out for.</li>
+      <li>Two years of history show no promo pattern on this SKU. Memory does not follow launch cycles.</li>
+    </ol>
+    <div class="offers">
+      <div class="offer"><div class="fav"></div><div class="oinfo"><span class="r">Newegg</span><span class="bestpill">best price</span><div class="fresh">price 4m &middot; stock 22m</div></div><span class="oprice">$189.99</span></div>
+      <div class="offer"><div class="fav"></div><div class="oinfo"><span class="r">Amazon</span><div class="fresh">price 4m &middot; stock 9m</div></div><span class="oprice">$194.99</span></div>
+      <div class="offer"><div class="fav"></div><div class="oinfo"><span class="r">Best Buy</span><div class="fresh">price 6m &middot; stock 41m</div></div><span class="oprice">$199.99</span></div>
+    </div>
+    <div class="foot"><span class="rec">Buy calls on memory: 81% of 27 graded &middot; pricescout.app/v/cmk32&#8209;6000</span></div>
   </div>
 
-  <div class="section">
-    <div class="mono">Your searches</div>
-    <div class="histrow">MacBook Pro 14 M5</div>
-    <div class="histrow">Sony WH-1000XM6</div>
-  </div>
+  <div class="disclaimer">Prices come from live retailer listings and can change without warning. Always confirm on the retailer page before buying.</div>
 </div>
 </body>
 </html>
