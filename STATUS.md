@@ -53,6 +53,7 @@ Three-way verdict: Buy Online / Buy Local Today / Wait. Color signals timing, no
 
 ## Next
 
-1. Extend the app's existing verdict layer toward Proto-004 (amber wait pair in `themes/clean.md`, verdict card presentation, freshness per offer), and wire Keepa to activate `computeVerdict`.
-2. Grade and store calls so the track-record line is backed by a real graded-calls table before any accuracy claim ships.
-3. RAM Market Index concept.
+1. **In review:** branch `proto-004-verdict` on the app repo adds the amber wait pair (both themes, loader, CSS) and a price-age line in the results header. Vercel preview builds from the branch; merge activates it in production. Note: freshness is response-level, not per-offer — all offers in a result come from one fetch, so per-offer stock timestamps wait for a data source that actually varies per offer.
+2. Wire Keepa to activate `computeVerdict` (real buy/wait timing), then the fuller Proto-004 card: visible numbered reasoning, Buy Online vs Buy Local, permanent verdict URLs, target band rail.
+3. Grade and store calls so the track-record line is backed by a real graded-calls table before any accuracy claim ships.
+4. RAM Market Index concept.
