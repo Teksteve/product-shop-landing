@@ -43,6 +43,10 @@
   .pname{font-size:15px;font-weight:600;line-height:1.35}
   .verdictrow{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
   .call{font-size:24px;font-weight:700;letter-spacing:-.01em;padding:3px 12px;border-radius:10px;color:var(--good-ink);background:var(--good)}
+  .call.wait{color:var(--wait-ink);background:var(--wait)}
+  .reshead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .reshead .l{font-size:13px;font-weight:600}
+  .reshead .r{font-size:11px;color:var(--fg-3)}
   .headprice{font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
   .at{font-size:13px;color:var(--fg-2);font-weight:400}
   .why{margin:12px 0 0;padding:0 0 0 18px}
@@ -85,6 +89,8 @@
 
   <div class="note">Static preview with sample data, matching the deployed design system. The live app runs real searches with live offers.</div>
 
+  <div class="reshead"><span class="l">2 products</span><span class="r">prices in USD &middot; checked just now</span></div>
+
   <div class="card">
     <div class="pname">Corsair Vengeance 32GB DDR5&#8209;6000 CL30</div>
     <div class="verdictrow">
@@ -102,6 +108,19 @@
       <div class="offer"><div class="fav"></div><div class="oinfo"><span class="r">Best Buy</span><div class="fresh">price 6m &middot; stock 41m</div></div><span class="oprice">$199.99</span></div>
     </div>
     <div class="foot"><span class="rec">Buy calls on memory: 81% of 27 graded &middot; pricescout.app/v/cmk32&#8209;6000</span></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="pname">Samsung 990 Pro 2TB NVMe SSD</div>
+    <div class="verdictrow">
+      <span class="call wait">Wait</span>
+      <span class="headprice">$219.99 <span class="at">today&rsquo;s best, above the buy band</span></span>
+    </div>
+    <ol class="why">
+      <li>Today's best is $30 above this drive's 90&#8209;day floor of $189.99, and the last two spikes retraced within a month.</li>
+      <li>Three of five sellers repriced downward this week. Movement is toward the floor, not away from it.</li>
+    </ol>
+    <div class="foot"><span class="rec">Wait calls on storage: 74% of 19 graded &middot; pricescout.app/v/990pro&#8209;2tb</span></div>
   </div>
 
   <div class="disclaimer">Prices come from live retailer listings and can change without warning. Always confirm on the retailer page before buying.</div>
