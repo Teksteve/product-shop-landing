@@ -14,6 +14,8 @@ The deployed app is the single source of truth for PriceScout's look and feel:
 
 ### Design tokens (extracted live from the deployed app, 2026-08-22)
 
+Tokens live in `themes/*.md` in the app repo (markdown themes, hot-reloadable, switchable via `?theme=<name>`). The default is `themes/clean.md`; the table below matches it exactly.
+
 Font: system stack (`system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif`). No webfonts.
 Radii: card 20px, row 14px, badge 999px.
 
@@ -34,8 +36,9 @@ The `wait` pair is proposed by Proto-004 and not yet in the app — the app curr
 
 ## Current state
 
-- `pricescout/index.html` — static preview rebuilt in the canonical design system (this commit). Shows the app hero plus the Proto-004 verdict card. Links to the live app.
-- The deployed app has price comparison, deal assessment ("good deal" pill vs cross-seller spread), watchlist, and accounts — **but no Buy/Wait verdict layer yet**. Proto-004 is the design spec for that missing feature.
+- `pricescout/index.html` — static preview rebuilt in the canonical design system. Shows the app hero plus the Proto-004 verdict card. Links to the live app.
+- **Correction (same day):** the app *does* have a verdict layer — `lib/verdict.ts` with four states (`buy | good | fair | wait`). Production currently runs `computeSpreadVerdict` (spread across sellers right now, deliberately silent on timing because there is no history data). `computeVerdict` (history-based buy/wait timing) exists in code and activates once Keepa is wired. The earlier claim here that no verdict layer existed was wrong.
+- Actual gap between the app and Proto-004: Buy Online vs Buy Local split, always-visible numbered reasoning, per-offer price+stock freshness timestamps, call-type track record, permanent verdict URLs, target band rail, and an amber `wait` token pair (the app styles wait as an outline; themes have no amber).
 
 ## Prototype history
 
@@ -50,6 +53,6 @@ Three-way verdict: Buy Online / Buy Local Today / Wait. Color signals timing, no
 
 ## Next
 
-1. Add the verdict layer to the app (`Teksteve/pricescout`), styled per Proto-004, including the amber wait token pair.
+1. Extend the app's existing verdict layer toward Proto-004 (amber wait pair in `themes/clean.md`, verdict card presentation, freshness per offer), and wire Keepa to activate `computeVerdict`.
 2. Grade and store calls so the track-record line is backed by a real graded-calls table before any accuracy claim ships.
 3. RAM Market Index concept.
