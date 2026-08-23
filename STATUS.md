@@ -2,7 +2,7 @@
 
 Authoritative record of PriceScout build and design state. Update with every session that changes design or build.
 
-Last updated: 2026-08-22
+Last updated: 2026-08-22 (evening)
 
 ## Design canon
 
@@ -53,7 +53,7 @@ Three-way verdict: Buy Online / Buy Local Today / Wait. Color signals timing, no
 
 ## Next
 
-1. **In review:** branch `proto-004-verdict` on the app repo now carries: amber wait pair (both themes), price-age line, `lib/keepa.ts` (search + 90-day stats, confident-match gate, 12h cache, every failure mode returns null and keeps the spread verdict), `computeVerdict` activated through normalize with numbered numeric reasons rendered in the card, and the buy badge labelled "buy online". **Activation requires `KEEPA_API_KEY` in Vercel env** (Keepa API is a paid subscription); without it the app behaves exactly as production does today. First live Keepa verification happens on the preview deployment — sandbox egress cannot reach api.keepa.com.
+1. **Merged to production (2026-08-22):** branch `proto-004-verdict` on the app repo now carries: amber wait pair (both themes), price-age line, `lib/keepa.ts` (search + 90-day stats, confident-match gate, 12h cache, every failure mode returns null and keeps the spread verdict), `computeVerdict` activated through normalize with numbered numeric reasons rendered in the card, and the buy badge labelled "buy online". Also live: `/design` route (all verdict states, real components, sample data, review tabs) and a per-card seller-spread figure. **Timing-verdict activation requires `KEEPA_API_KEY` in Vercel env** (Keepa API is a paid subscription); without it the app behaves exactly as production does today. First live Keepa verification happens on the preview deployment — sandbox egress cannot reach api.keepa.com.
 2. "Buy local" (third verdict channel): needs a store-stock source; Best Buy API in-store availability is the candidate. Phase two, requires location UX.
 3. Then the rest of the Proto-004 card: permanent verdict URLs, target band rail.
 4. Grade and store calls so the track-record line is backed by a real graded-calls table before any accuracy claim ships.
