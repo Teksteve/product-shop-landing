@@ -53,7 +53,8 @@ Three-way verdict: Buy Online / Buy Local Today / Wait. Color signals timing, no
 
 ## Next
 
-1. **In review:** branch `proto-004-verdict` on the app repo adds the amber wait pair (both themes, loader, CSS) and a price-age line in the results header. Vercel preview builds from the branch; merge activates it in production. Note: freshness is response-level, not per-offer — all offers in a result come from one fetch, so per-offer stock timestamps wait for a data source that actually varies per offer.
-2. Wire Keepa to activate `computeVerdict` (real buy/wait timing), then the fuller Proto-004 card: visible numbered reasoning, Buy Online vs Buy Local, permanent verdict URLs, target band rail.
-3. Grade and store calls so the track-record line is backed by a real graded-calls table before any accuracy claim ships.
-4. RAM Market Index concept.
+1. **In review:** branch `proto-004-verdict` on the app repo now carries: amber wait pair (both themes), price-age line, `lib/keepa.ts` (search + 90-day stats, confident-match gate, 12h cache, every failure mode returns null and keeps the spread verdict), `computeVerdict` activated through normalize with numbered numeric reasons rendered in the card, and the buy badge labelled "buy online". **Activation requires `KEEPA_API_KEY` in Vercel env** (Keepa API is a paid subscription); without it the app behaves exactly as production does today. First live Keepa verification happens on the preview deployment — sandbox egress cannot reach api.keepa.com.
+2. "Buy local" (third verdict channel): needs a store-stock source; Best Buy API in-store availability is the candidate. Phase two, requires location UX.
+3. Then the rest of the Proto-004 card: permanent verdict URLs, target band rail.
+4. Grade and store calls so the track-record line is backed by a real graded-calls table before any accuracy claim ships.
+5. RAM Market Index concept.
